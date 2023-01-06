@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Classifier",
+            "type": "python",
+            "request": "launch",
+            "program": "${cwd}/src/runner/classify.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${cwd}"
+            },
+            "args": ["--config", "bert.json", "--device", "cpu"]
+        },
+        {
+            "name": "Generate Submission",
+            "type": "python",
+            "request": "launch",
+            "program": "${cwd}/src/runner/generate_submission.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${cwd}"
+            },
+            "args": ["--config", "local.json", "--device", "cpu"]
+        }
+    ]
+}

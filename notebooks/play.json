@@ -1,0 +1,166 @@
+{
+    "Kth Fold": 0,
+    "Epoch": 0,
+    "train": {
+        "a": {
+            "not sexist": {
+                "precision": 0.7583576204354534,
+                "recall": 1.0,
+                "f1-score": 0.8625749524691658,
+                "support": 8847
+            },
+            "sexist": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 2819
+            },
+            "accuracy": 0.7583576204354534,
+            "macro avg": {
+                "precision": 0.3791788102177267,
+                "recall": 0.5,
+                "f1-score": 0.4312874762345829,
+                "support": 11666
+            },
+            "weighted avg": {
+                "precision": 0.5751062804725232,
+                "recall": 0.7583576204354534,
+                "f1-score": 0.654140288401741,
+                "support": 11666
+            }
+        },
+        "b": {
+            "1. threats, plans to harm and incitement": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 261.0
+            },
+            "2. derogation": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 1339.0
+            },
+            "3. animosity": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 943.0
+            },
+            "4. prejudiced discussions": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 276.0
+            },
+            "none": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 0.0
+            },
+            "accuracy": 0.0,
+            "macro avg": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 2819.0
+            },
+            "weighted avg": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 2819.0
+            }
+        },
+        "c": {
+            "1.1 threats of harm": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 46.0
+            },
+            "1.2 incitement and encouragement of harm": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 215.0
+            },
+            "2.1 descriptive attacks": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 598.0
+            },
+            "2.2 aggressive and emotive attacks": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 572.0
+            },
+            "2.3 dehumanising attacks & overt sexual objectification": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 169.0
+            },
+            "3.1 casual use of gendered slurs, profanities, and insults": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 520.0
+            },
+            "3.2 immutable gender differences and gender stereotypes": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 334.0
+            },
+            "3.3 backhanded gendered compliments": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 51.0
+            },
+            "3.4 condescending explanations or unwelcome advice": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 38.0
+            },
+            "4.1 supporting mistreatment of individual women": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 58.0
+            },
+            "4.2 supporting systemic discrimination against women as a group": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 218.0
+            },
+            "none": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 0.0
+            },
+            "accuracy": 0.0,
+            "macro avg": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 2819.0
+            },
+            "weighted avg": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1-score": 0.0,
+                "support": 2819.0
+            }
+        }
+    },
+    "loss": 0.11691963727374684
+}
