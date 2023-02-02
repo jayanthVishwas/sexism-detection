@@ -3,6 +3,7 @@ import os
 import torch
 
 from src.models.bert import BertClassifier
+from src.models.bert_focal_loss import BertClassifier_fl
 from src.models.unifiedQA import UnifiedQAClassifier
 
 
@@ -12,6 +13,8 @@ def get_classification_model_from_state(configs, state_configs, device):
 
     if model_name == 'bert':
         model = BertClassifier(configs, device)
+    elif model_name == 'bert_fl':
+        model = BertClassifier_fl(configs, device)
     elif model_name == 'unifiedQA':
         model = UnifiedQAClassifier(configs, device)
     else:
@@ -31,13 +34,14 @@ def save_model(model, configs):
 
 def get_model(configs, filepath, device):
     model_name = configs.model.type
-
     if model_name == 'bert':
         model = BertClassifier(configs, device)
+    elif model_name == 'bert_fl':
+        model = BertClassifier_fl(configs, device)
     elif model_name == 'unifiedQA':
         model = UnifiedQAClassifier(configs, device)
     else:
         raise Exception('Invalid model name')
 
-    model.load_state_dict(torch.load(filepath))
+    model.load_state_dict(torch.load(filepath, map_location=device))
     return model

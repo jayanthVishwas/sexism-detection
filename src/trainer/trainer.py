@@ -1,11 +1,12 @@
 from abc import abstractmethod, ABC
+import json
 import os
 
 import torch
 
 from src.config_reader import write_json_configs
 from src.logger import Logger
-from src.models.utils import save_model
+from src.models.utils import save_model, get_model
 
 
 class Trainer(ABC):
@@ -40,6 +41,8 @@ class Trainer(ABC):
                 best_params = {'kth_fold': self.state_configs.kth_fold, 'epoch': epoch, 'eval_metric': eval_scores}
 
                 torch.save(self.model.state_dict(), os.path.join(self.model_save_dir, f'best_model_{self.state_configs.kth_fold}.pt'))
+                json.dump(best_params, open(os.path.join(self.model_save_dir, f'best_metric_{self.state_configs.kth_fold}.json'), 'w'))
+
                 self.logger.log_file(self.configs.logs.files.best, best_params)
                 self.logger.log_csv(f'{self.state_configs.kth_fold}_{epoch}_{self.configs.logs.files.predictions}', eval_predictions)
                 self.state_configs.edit('epochs_without_improvement', 0)
@@ -53,6 +56,10 @@ class Trainer(ABC):
             save_model(self.model, self.configs)
             self.state_configs.edit('epoch', epoch + 1)
             write_json_configs(self.state_configs, os.path.join(self.logger.dir, self.configs.logs.files.state))
+
+    def get_best_model(self):
+        model_path = os.path.join(self.model_save_dir, f'best_model_{self.state_configs.kth_fold}.pt')
+        return get_model(self.configs, model_path, self.device)
 
     @abstractmethod
     def summarize_scores(self, scores):

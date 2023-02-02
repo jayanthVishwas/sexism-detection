@@ -1,44 +1,48 @@
 import os
-from argparse import ArgumentParser
-from collections import defaultdict, Counter
 
 import torch
 from tqdm import tqdm
+from sklearn.metrics import classification_report
 
 from src.config_reader import read_json_configs
-from src.models.utils import get_model
+from src.strategies.ensemble.utils import get_ensemble_model
 from src.logger import Logger
-from src.datasets.dataset import PredictionDataset
+from src.datasets.dataset import PredictionDataset, TrainDataset
 from src.utils import get_args
-
 
 if __name__ == '__main__':
     args = get_args()
     configs = read_json_configs(os.path.join('./configs', args.config))
 
     logger = Logger(configs)
-    model_dir = os.path.join(logger.dir, configs.logs.files.models)
-    models = []
-    for file in os.listdir(model_dir):
-        if 'best_model' in file:
-            models.append(file)
-
-    prediction_dataset = PredictionDataset(configs)
-    prediction_dataloader = torch.utils.data.DataLoader(prediction_dataset, batch_size=configs.predict.batch_size, shuffle=False, num_workers=0)
+    dataset = TrainDataset(configs, configs.submission.file) if configs.submission.dataset == 'dev' else PredictionDataset(configs)
+    logger.log_text(configs.logs.files.event, f'Generating submission file for {configs.submission.file} dataset')
     
-    predictions = defaultdict(list)
-    for model_path in models:
-        model = get_model(configs, os.path.join(model_dir, model_path), args.device)
-        model.eval()
-        for batch in tqdm(prediction_dataloader):
-            pred, loss = model(batch, train=False)
-            for rewire_id, pred in zip(batch['rewire_id'], pred):
-                predictions[rewire_id].append(pred)
+    model = get_ensemble_model(configs, logger, args.device)
+    prediction_dataloader = torch.utils.data.DataLoader(dataset, batch_size=configs.train.eval_batch_size, shuffle=False, num_workers=0)
+    
+    predictions = {}
+    
 
+    for batch in tqdm(prediction_dataloader):
+        pred, _ = model(batch, train=False)
+        for rew_id, pred in pred.items():
+            predictions[rew_id] = pred['sexist']
+
+    actual_labels = []
+    prediction_labels = []
+    if configs.submission.dataset == 'dev':
+        for data in dataset:
+            rew_id = data['rewire_id']
+            actual_labels.append(data['label_sexist'])
+            prediction_labels.append(predictions[rew_id])
+
+        print(classification_report(actual_labels, prediction_labels))
+        logger.log_file(configs.logs.files.event, classification_report(actual_labels, prediction_labels, output_dict=True))
+        
     with open(os.path.join(logger.dir, configs.logs.files.submission), 'w') as f:
         f.write('rewire_id,label_pred\n')
         for rew_id, pred in predictions.items():
-            label = Counter(pred).most_common(1)[0][0]
-            f.write(f'{rew_id},{label}\n')
+            f.write(f'{rew_id},{pred}\n')
 
     print("Done generating submission file!")
